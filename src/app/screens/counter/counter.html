@@ -1,1 +1,12 @@
-<p>counter works!</p>
+<div class="flex flex-col gap-6">
+    <app-title main="Contador" sub="Exemplo de componente com estado"></app-title>
+
+    <div class="flex flex-col items-center">
+        <span class="text-5xl font-mono">{{ count() }}</span>
+        <div class="flex gap-4">
+            <button (click)="increment()" class="btn btn-primary">Contar</button>
+            <button (click)="decrement()" class="btn btn-second">Discontar</button>
+            <button (click)="reset()" class="btn btn-transparent">Resetar</button>
+        </div>
+    </div>
+</div>
