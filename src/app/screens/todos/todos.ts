@@ -1,9 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { Title } from '../../components/shared/title/title';
+import { TodosService } from '../../services/todos.service';
 
 @Component({
   selector: 'app-todos',
-  imports: [],
+  imports: [Title],
   templateUrl: './todos.html',
   styleUrl: './todos.css',
 })
-export class Todos {}
+export class Todos {
+  readonly todoService = inject(TodosService);
+}
