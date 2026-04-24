@@ -1,18 +1,48 @@
-<div class="flex flex-col gap-6">
-    <app-title main="Tarefas" sub="Exemplo de listas de tarefas com componentes"></app-title>
+<div class="flex flex-col items-center gap-6">
+    <div class="flex justify-between items-center w-370">
+        <app-title main="Tarefas" sub="Exemplo de listas de tarefas com componentes"></app-title>
+        <button class="btn btn-primary font-mono w-40 justify-center"
+          (click)="todoService.showDelete()"       
+        >
+            Deletar tarefas
+        </button>
+    </div>
 
-    <div class="grid grid-cols-4 gap-10 m-20">
+    <div class="grid grid-cols-4 gap-10 m-20 font-mono">
         @for (item of todoService.items(); track item.id) {
-        <div (click)="todoService.itemCompleted(item)"
-            class="border border-gray-500 text-gray-300 rounded flex flex-col justify-between p-7 cursor-pointer">
+            <div (click)="todoService.itemCompleted(item)"
+                class="border border-gray-500 text-gray-300 rounded flex flex-col hover:scale-95 transition-all duration-250 ease-in-out justify-between p-7 cursor-pointer"
+                [class.border-green-700]="item.completed"
+                [class.border-orange-800]="!item.completed"
+            >
+                <div class="flex justify-end">
+                    @if (todoService.delete()) {
+                        <button class="mb-5 cursor-pointer text-orange-700 hover:text-orange-500 transition-colors"
+                            (click)="todoService.removeTask(item.id); $event.stopPropagation()"
+                        >
+                            <mat-icon>
+                                {{ !item.completed ? 'delete' : '' }}
+                            </mat-icon>
+                        </button>
+                    }
+                </div>
             
-            {{ item.title }}
+                <span class="wrap-break-word pr-2 h-20 overflow-y-auto scrollbar-thin scrollbar-track-transparent"
+                    [class.line-through]="item.completed"
+                    [class.text-gray-500]="item.completed"
+                    [class.scrollbar-thumb-green-700]="item.completed"
+                    [class.scrollbar-thumb-orange-700]="!item.completed"
+                >
+                    {{ item.title }}
+                </span>
 
-            <div class="flex flex-col items-center mt-7" [class.text-green-700]="item.completed"
-                [class.text-orange-800]="!item.completed">
-                {{ item.completed ? 'Concluído' : 'Pendente' }}
+                <div class="flex flex-col items-center mt-7" 
+                    [class.text-green-700]="item.completed"
+                    [class.text-orange-800]="!item.completed"
+                >
+                    {{ item.completed ? 'Concluído' : 'Pendente' }}
+                </div>
             </div>
-        </div>
         }
     </div>
 </div>
