@@ -1,11 +1,33 @@
 /* You can add global styles to this file, and also import other style files */
 
 @import 'tailwindcss';
+@plugin 'tailwind-scrollbar';
 
 
 body {
     background-color: #252525;
     color: #fff;
+}
+
+/* Remove largura padrão e deixa fino */
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+/* Remove o fundo (track) */
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Estiliza só a barrinha */
+::-webkit-scrollbar-thumb {
+  background: #f94316; /* laranja */
+  border-radius: 9999px;
+}
+
+/* Remove botões/setas */
+::-webkit-scrollbar-button {
+  display: none;
 }
 
 @layer components {
