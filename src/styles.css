@@ -12,6 +12,7 @@ body {
 /* Remove largura padrão e deixa fino */
 ::-webkit-scrollbar {
   width: 4px;
+  height: 4px;
 }
 
 /* Remove o fundo (track) */
@@ -33,6 +34,7 @@ body {
 @layer components {
     .btn {
         @apply flex mt-5 cursor-pointer p-2 rounded
+               items-center
                transition-all 
                duration-100 
                ease-in-out;
@@ -51,11 +53,16 @@ body {
                active:bg-gray-700;
     }
 
-    .btn-transparent {
-        @apply text-orange-800 border border-orange-800
-               hover:bg-orange-950 
-               hover:text-orange-600
-               active:bg-orange-900;
+    .btn-purple {
+      @apply text-purple-400 border 
+             border-purple-700
+             hover:bg-purple-950 
+             hover:text-purple-600
+             active:bg-purple-950;
+    }
 
+    .input {
+      @apply border border-zinc-500 rounded px-4 py-2;
+      @apply outline-none focus:border-purple-800;
     }
 }
