@@ -1,14 +1,29 @@
 <div class="flex flex-col items-center gap-6">
-    <div class="flex justify-between items-center w-370">
+    <div class="flex justify-between items-center w-full px-14">
         <app-title main="Tarefas" sub="Exemplo de listas de tarefas com componentes"></app-title>
-        <button class="btn btn-primary font-mono w-40 justify-center"
-          (click)="todoService.showDelete()"       
+    </div>
+    
+    <div class="flex gap-2 w-full px-14">
+        <input type="text" placeholder="Adicionar nova tarefa" class="input w-full"
+            (keyup.enter)="addTodo($event)"
+        >
+    </div>
+    
+    <div class="flex justify-end w-full px-14">
+        <button class="btn btn-purple mt-0 font-mono w-40 justify-center"
+            (click)="todoService.showDelete()"       
         >
             Deletar tarefas
         </button>
     </div>
 
-    <div class="grid grid-cols-4 gap-10 m-20 font-mono">
+    <div class="grid grid-cols-4 gap-10 m-15 mt-10 font-mono w-full px-14">
+        @if (todoService.items().length === 0) {
+            <div class="col-span-4 flex justify-center w-full p-50">
+                <h1 class="text-zinc-700 text-2xl">Você não possui nenhuma tarefa.</h1>
+            </div>
+        }
+
         @for (item of todoService.items(); track item.id) {
             <div (click)="todoService.itemCompleted(item)"
                 class="border border-gray-500 text-gray-300 rounded flex flex-col hover:scale-95 transition-all duration-250 ease-in-out justify-between p-7 cursor-pointer"
