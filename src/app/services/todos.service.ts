@@ -1,23 +1,35 @@
-import { Injectable, signal } from '@angular/core';
+import { effect, Injectable, signal } from '@angular/core';
 import { Todo } from '../model/todo.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TodosService {
-  private readonly _items = signal<Array<Todo>>([
-    { id: crypto.randomUUID(), title: "Comprar lixadeira da devault", completed: false },
-    { id: crypto.randomUUID(), title: "Buscar furadeira de impacto", completed: false },
-    { id: crypto.randomUUID(), title: "Comprar parafusos para madeira", completed: false },
-    { id: crypto.randomUUID(), title: "Medir área da varanda", completed: true },
-    { id: crypto.randomUUID(), title: "Comprar óculos de proteção", completed: false },
-    { id: crypto.randomUUID(), title: "Cortar aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaripas de pinus", completed: false },
-  ]);
+  private readonly _items = signal<Todo[]>([]);
 
   readonly items = this._items.asReadonly();
 
+  constructor() {
+    this._load();
+
+    effect(() => {
+      const items = this._items();
+      localStorage.setItem('todos', JSON.stringify(items));
+    })
+  }
+
   itemCompleted(item: Todo) {
     item.completed = !item.completed;
+  }
+
+  addTasck(title: string) {
+    const newTodo: Todo = {
+      id: crypto.randomUUID(),
+      title,
+      completed: false
+    };
+
+    this._items.update((item) => [...item, newTodo]);
   }
 
   delete = signal(false);
@@ -28,5 +40,12 @@ export class TodosService {
 
   removeTask(id: string) {
     this._items.update(item => item.filter(item => item.id != id));
+  }
+
+  private _load() {
+    const storedTodos = localStorage.getItem('todos');
+
+    storedTodos ? this._items.set(JSON.parse(storedTodos))
+    : this._items.set([]);
   }
 }
